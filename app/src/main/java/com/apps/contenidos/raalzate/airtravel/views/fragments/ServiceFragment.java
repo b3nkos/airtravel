@@ -1,4 +1,4 @@
-package com.apps.contenidos.raalzate.airtravel.views;
+package com.apps.contenidos.raalzate.airtravel.views.fragments;
 
 /**
  * Created by MyMac on 26/04/16.
@@ -9,6 +9,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.apps.contenidos.raalzate.airtravel.views.QueryServiceView;
+import com.apps.contenidos.raalzate.airtravel.views.ServiceView;
 
 
 public  class ServiceFragment extends Fragment {

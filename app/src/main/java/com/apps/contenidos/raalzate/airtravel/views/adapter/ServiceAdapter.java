@@ -1,4 +1,4 @@
-package com.apps.contenidos.raalzate.airtravel.views;
+package com.apps.contenidos.raalzate.airtravel.views.adapter;
 
 import android.content.Context;
 import android.content.res.Resources;
