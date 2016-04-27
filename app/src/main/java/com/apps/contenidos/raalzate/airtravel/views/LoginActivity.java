@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -51,20 +50,24 @@ public class LoginActivity extends RoboActionBarActivity implements ILoginActivi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        loginActivityPresenter = new LoginActivityPresenter(this, LoginActivity.this);
         initViews();
+
         populateAutoComplete();
-        //loginPass();//TODO: quitar
+
+        if(loginActivityPresenter.existUser()) {
+            loginPass();
+        }
     }
 
     private void initViews() {
         mLickRegister.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Uri uri = Uri.parse("http://www.tigo.com.co/user/register_community");
-                startActivity(new Intent(Intent.ACTION_VIEW, uri));
+                startActivity(new Intent(LoginActivity.this, CreateUserActivity.class));
             }
         });
-        loginActivityPresenter = new LoginActivityPresenter(this, LoginActivity.this);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {

@@ -19,9 +19,9 @@ public interface ILoginActivityPresenter {
     int ADDRESS = 0;
     int IS_PRIMARY = 1;
 
-    boolean isAuthTask();
     Loader<Cursor> getContactsContract();
     void loadContacts(Cursor cursor);
     boolean mayRequestContacts();
     void attemptLoginEmailAndPassword(AutoCompleteTextView mEmailView, EditText mPasswordView);
+    boolean existUser();
 }

@@ -18,4 +18,5 @@
     <string name="text_question_register">¿No estás registrado en AIR TRAVEL?</string>
     <string name="text_question_forgottenpass"><a href="http://www.tigo.com.co/user/register_community">¿Ovidaste tu contraseña?</a></string>
     <string name="text_registrate"><a href="http://www.tigo.com.co/user/register_community">Regístrate</a></string>
+    <string name="title_activity_create_user">CreateUserActivity</string>
 </resources>

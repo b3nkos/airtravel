@@ -3,13 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.apps.contenidos.raalzate.airtravel">
 
+    <uses-sdk tools:overrideLibrary="android.support.v17.leanback" />
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
@@ -22,9 +23,6 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-
-
-    <uses-sdk tools:overrideLibrary="android.support.v17.leanback" />
 
     <application
         android:name=".MainApp"
@@ -46,6 +44,10 @@
         <activity
             android:name=".views.MainActivity"
             android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".views.CreateUserActivity"
+            android:label="@string/title_activity_create_user"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

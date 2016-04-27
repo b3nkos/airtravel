@@ -7,7 +7,6 @@ import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
@@ -18,6 +17,10 @@ import android.widget.EditText;
 
 
 import com.apps.contenidos.raalzate.airtravel.R;
+import com.apps.contenidos.raalzate.airtravel.model.UserModel;
+import com.apps.contenidos.raalzate.airtravel.model.entitys.UserEntity;
+import com.apps.contenidos.raalzate.airtravel.model.interfaces.IResponseLoginUser;
+import com.apps.contenidos.raalzate.airtravel.model.utils.TinyDB;
 import com.apps.contenidos.raalzate.airtravel.presenters.interfaces.ILoginActivityPresenter;
 import com.apps.contenidos.raalzate.airtravel.views.interfaces.ILoginActivity;
 
@@ -27,27 +30,19 @@ import java.util.List;
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
- * Created by raalzate on 22/02/2016.
+ * Created by raalzate on 26/04/2016.
  */
 public class LoginActivityPresenter implements ILoginActivityPresenter {
 
-    private ILoginActivity iLoginActivity;
-    private UserLoginTask mAuthTask = null;
-    private Activity activity;
+    private final TinyDB tinyDB;
+    private final ILoginActivity iLoginActivity;
+    private final Activity activity;
 
 
     public LoginActivityPresenter(ILoginActivity iLoginActivity, Activity activity) {
         this.iLoginActivity = iLoginActivity;
         this.activity = activity;
-    }
-
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "alzategomez.raul@gmail.com:123456", "bar@example.com:world"
-    };
-
-    @Override
-    public boolean isAuthTask() {
-        return mAuthTask != null;
+        tinyDB = new TinyDB(this.activity);
     }
 
     @Override
@@ -92,17 +87,13 @@ public class LoginActivityPresenter implements ILoginActivityPresenter {
     @Override
     public Loader<Cursor> getContactsContract() {
         return new CursorLoader(activity,
-                // Retrieve data rows for the device user's 'profile' contact.
                 Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
                         ContactsContract.Contacts.Data.CONTENT_DIRECTORY), PROJECTION,
 
-                // Select only email addresses.
                 ContactsContract.Contacts.Data.MIMETYPE +
                         " = ?", new String[]{ContactsContract.CommonDataKinds.Email
                 .CONTENT_ITEM_TYPE},
 
-                // Show primary email addresses first. Note that there won't be
-                // a primary email address if the user hasn't specified one.
                 ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
     }
 
@@ -110,22 +101,15 @@ public class LoginActivityPresenter implements ILoginActivityPresenter {
     @Override
     public void attemptLoginEmailAndPassword(AutoCompleteTextView emailView, EditText passwordView) {
 
-        if (isAuthTask()) {
-            return;
-        }
-
-        // Reset errors.
         emailView.setError(null);
         passwordView.setError(null);
 
-        // Store values at the time of the login attempt.
         String email = emailView.getText().toString();
         String password = passwordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             passwordView.setError(activity.getString(R.string.error_invalid_password));
             focusView = passwordView;
@@ -144,16 +128,32 @@ public class LoginActivityPresenter implements ILoginActivityPresenter {
         }
 
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
+
             focusView.requestFocus();
+
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
+
             iLoginActivity.showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            UserModel.login(email, password, new IResponseLoginUser() {
+                @Override
+                public void onSuccess(UserEntity entity) {
+                    tinyDB.putString("uid", entity.id);
+                    iLoginActivity.loginPass();
+                }
+
+                @Override
+                public void onRestricted() {
+                    iLoginActivity.showProgress(false);
+                    iLoginActivity.errorLoginPass();
+                }
+            });
+
         }
+    }
+
+    @Override
+    public boolean existUser() {
+        return !tinyDB.getString("uid").equals("");
     }
 
 
@@ -165,54 +165,5 @@ public class LoginActivityPresenter implements ILoginActivityPresenter {
         return password.length() > 4;
     }
 
-    private class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            if (success) {
-                iLoginActivity.loginPass();
-            } else {
-                iLoginActivity.showProgress(false);
-                iLoginActivity.errorLoginPass();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            iLoginActivity.showProgress(false);
-        }
-    }
 }
