@@ -2,17 +2,17 @@ package com.apps.contenidos.raalzate.airtravel.views.fragments;
 
 import android.os.Bundle;
 import android.support.v17.leanback.widget.VerticalGridView;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.apps.contenidos.raalzate.airtravel.R;
+import com.apps.contenidos.raalzate.airtravel.presenters.TabQueryFragmentPresenter;
 import com.apps.contenidos.raalzate.airtravel.views.adapter.GridCardAdapter;
+import com.apps.contenidos.raalzate.airtravel.views.interfaces.ITabQueryFragment;
 
 import roboguice.fragment.RoboFragment;
 import roboguice.inject.InjectView;
@@ -20,9 +20,11 @@ import roboguice.inject.InjectView;
 /**
  * Created by MyMac on 26/04/16.
  */
-public class TabQueryTimeFragment extends RoboFragment {
+public class TabQueryByTimeFragment extends RoboFragment implements ITabQueryFragment {
+
     @InjectView(R.id.grid_view) VerticalGridView gridView;
     private GridLayoutManager gridLayoutManager;
+    private TabQueryFragmentPresenter tabQueryByTimeFragmentPresenter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class TabQueryTimeFragment extends RoboFragment {
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        tabQueryByTimeFragmentPresenter = new TabQueryFragmentPresenter(this);
         initViews();
     }
 
@@ -48,7 +51,8 @@ public class TabQueryTimeFragment extends RoboFragment {
         gridView.setSoundEffectsEnabled(true);
         gridView.setItemAnimator(itemAnimator);
 
-        setAdapter(new GridCardAdapter(getActivity()));
+        tabQueryByTimeFragmentPresenter.loadDataOfTime();
+
     }
 
 

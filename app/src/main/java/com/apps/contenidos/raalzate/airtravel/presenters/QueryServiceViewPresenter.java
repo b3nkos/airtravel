@@ -1,7 +1,9 @@
 package com.apps.contenidos.raalzate.airtravel.presenters;
 
 import com.apps.contenidos.raalzate.airtravel.presenters.interfaces.IQueryServiceViewPresenter;
-import com.apps.contenidos.raalzate.airtravel.views.fragments.TabQueryTimeFragment;
+import com.apps.contenidos.raalzate.airtravel.views.fragments.TabQueryByCostFragment;
+import com.apps.contenidos.raalzate.airtravel.views.fragments.TabQueryBySeatFragment;
+import com.apps.contenidos.raalzate.airtravel.views.fragments.TabQueryByTimeFragment;
 import com.apps.contenidos.raalzate.airtravel.views.interfaces.IQueryServiceView;
 
 /**
@@ -15,8 +17,8 @@ public class QueryServiceViewPresenter implements IQueryServiceViewPresenter {
 
     @Override
     public void loadContentTab() {
-        queryServiceView.addTab("Tab 1", new TabQueryTimeFragment());
-        queryServiceView.addTab("Tab 2", new TabQueryTimeFragment());
-        queryServiceView.addTab("Tab 3", new TabQueryTimeFragment());
+        queryServiceView.addTab("Horario de Vuelo", new TabQueryByTimeFragment());
+        queryServiceView.addTab("Tarifa de Vuelo", new TabQueryByCostFragment());
+        queryServiceView.addTab("Estado de Vuelo", new TabQueryBySeatFragment());
     }
 }

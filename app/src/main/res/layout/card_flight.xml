@@ -10,14 +10,38 @@
     card_view:cardPreventCornerOverlap="false" >
 
 
-    <ImageView
-        android:id="@+id/poster"
+    <TextView
+        android:id="@+id/date"
         android:minWidth="160dp"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:scaleType="centerCrop"
+        android:textSize="24sp"
+        android:lines="1"
+        android:ellipsize="end"
         android:layout_above="@+id/info_text"
         android:layout_gravity="center_vertical|center_horizontal"
+        />
+
+    <TextView
+        android:id="@+id/cost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:lines="1"
+        android:ellipsize="end"
+        android:layout_above="@+id/info_text"
+        android:layout_gravity="center_vertical|center_horizontal"
+        />
+    <TextView
+        android:id="@+id/available_seats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:lines="1"
+        android:ellipsize="end"
+        android:layout_above="@+id/info_text"
+        android:layout_marginBottom="30dp"
+        android:layout_gravity="bottom|center_horizontal"
         />
 
     <TextView

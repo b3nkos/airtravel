@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import com.apps.contenidos.raalzate.airtravel.R;
 import com.apps.contenidos.raalzate.airtravel.presenters.QueryServiceViewPresenter;
-import com.apps.contenidos.raalzate.airtravel.views.fragments.TabQueryTimeFragment;
 import com.apps.contenidos.raalzate.airtravel.views.interfaces.IQueryServiceView;
 
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ public class QueryServiceView extends ServiceView implements IQueryServiceView, 
     private PagerAdapter adapter;
 
     public QueryServiceView(LayoutInflater inflater, ViewGroup container, FragmentManager fragmentManager) {
-        super(R.layout.fragment_query_for_time, inflater, container, fragmentManager);
+        super(R.layout.fragment_query, inflater, container, fragmentManager);
         queryServiceViewPresenter = new QueryServiceViewPresenter(this);
         initViews();
     }

@@ -11,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.apps.contenidos.raalzate.airtravel.views.QueryServiceView;
+import com.apps.contenidos.raalzate.airtravel.views.ReservationServiceView;
 import com.apps.contenidos.raalzate.airtravel.views.ServiceView;
+import com.apps.contenidos.raalzate.airtravel.views.StatusFlightServiceView;
 
 
 public  class ServiceFragment extends Fragment {
@@ -42,8 +44,8 @@ public  class ServiceFragment extends Fragment {
 
         switch (getArguments().getInt(ARG_SERVICE_SECTION)) {
             case 1: return new QueryServiceView(inflater, container, getFragmentManager());
-            case 2: return new QueryServiceView(inflater, container, getFragmentManager());
-            case 3: return new QueryServiceView(inflater, container, getFragmentManager());
+            case 2: return new ReservationServiceView(inflater, container, getFragmentManager());
+            case 3: return new StatusFlightServiceView(inflater, container, getFragmentManager());
         }
         return null;
     }
